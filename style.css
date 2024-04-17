@@ -14,6 +14,7 @@
    --bg-primary-light: hsla(var(--base-color), 100%, 63%, 0.13);
    --primary-color: hsl(var(--base-color), 100%, 63%);
    --txt-color: #ffffff;
+   --error-alert-bg: red;
 
 }
 
@@ -28,6 +29,23 @@ body {
 
 .hide {
    display: none;
+}
+
+input {
+   background-color: transparent;
+   border: none;
+   width: 8rem;
+   padding: 1rem;
+   font-size: clamp(3.3rem, 3.3rem + 2vw, 6.6rem);
+   color: var(--txt-color);
+   outline: none;
+   appearance: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
 }
 
 .btn {
@@ -47,6 +65,21 @@ svg {
    fill: var(--primary-color);
 }
 
+/* ERROR ALERT */
+.empty-value-error {
+   background-color: var(--error-alert-bg);
+   height: 4.5rem;
+   transition: 0.5s;
+   transform: translateY(-100%);
+}
+
+.empty-value-error .error-msg {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin-top: 1rem;
+}
+
 /* TIMER CONTAINER */
 .timer-container {
    display: grid;
@@ -57,7 +90,9 @@ svg {
 /* TIMER NUMBERS */
 .timer-time {
    display: flex;
-   font-size: clamp(3.3rem, 3.3rem + 2vw, 6.6rem);
+   align-items: center;
+   justify-content: center;
+   font-size: 4rem;
 }
 
 /* CONTROL TIMER */
