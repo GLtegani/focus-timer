@@ -1,0 +1,79 @@
+/* PAGE CONFIG */
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+:root {
+   font-size: 62.5%;
+
+   /* COLORS */
+   --bg-color: #121214;
+   --base-color: 220;
+   --bg-primary-light: hsla(var(--base-color), 100%, 63%, 0.13);
+   --primary-color: hsl(var(--base-color), 100%, 63%);
+   --txt-color: #ffffff;
+
+}
+
+body {
+   font-size: 1.6rem;
+   font-family: "Roboto", sans-serif;
+   background-color: var(--bg-color);
+   color: var(--txt-color);
+   display: grid;
+   height: 100vh;
+}
+
+.hide {
+   display: none;
+}
+
+.btn {
+   cursor: pointer;
+   background-color: transparent;
+   border: none;
+   color: white;
+   transition: 0.2s;
+}
+
+svg {
+   width: clamp(4rem, 4rem + 1vw, 8rem);
+   height: clamp(4rem, 4rem + 1vw, 8rem);
+}
+
+.btn svg:hover {
+   fill: var(--primary-color);
+}
+
+/* TIMER CONTAINER */
+.timer-container {
+   display: grid;
+   place-content: center;
+   align-self: end;
+}
+
+/* TIMER NUMBERS */
+.timer-time {
+   display: flex;
+   font-size: clamp(3.3rem, 3.3rem + 2vw, 6.6rem);
+}
+
+/* CONTROL TIMER */
+.controls-area {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 0.8rem 0.5rem;
+   border-radius: 9999rem;
+   background-color: var(--bg-primary-light);
+}
+
+/* SOUND CONTENT */
+.sound-container {
+   display: grid;
+   align-items: end;
+   place-content: end;
+   margin-right: 1rem;
+}
