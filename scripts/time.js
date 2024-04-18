@@ -13,9 +13,9 @@ const loadInitialItems = () => {
    resetDefaultValue();
 };
 
-
 // EVENTS
 window.addEventListener('DOMContentLoaded', loadInitialItems);
+// TimeData.minutes.addEventListener('')
 
 // EXPORTS
 export { TimeData, loadInitialItems };

@@ -1,6 +1,6 @@
 // IMPORTS
 import { TimeData } from "./time.js";
-import { resetDefaultValue } from "./utils.js";
+import { resetDefaultValue, runTimer } from "./utils.js";
 
 // DATA
 const ControlsData = {
@@ -32,15 +32,31 @@ const startCounter = (event) => {
 
       showErrorBox;
       resetDefaultValue();
+   } else if(emptyMinutesValue && emptySecondsValue){
+
+      showErrorBox;
+      resetDefaultValue();
+   }  else if(isNaN(TimeData.minutes.value) || isNaN(TimeData.seconds.value)){
+
+      showErrorBox;
+      resetDefaultValue();
+   } else if(TimeData.minutes.value.length != 2 || TimeData.seconds.value.length != 2){
+      
+      showErrorBox;
+      resetDefaultValue();
    } else {
 
-      TimeData.errorAlert.style.transform = `translateY(-100%)`
+      TimeData.errorAlert.style.transform = `translateY(-100%)`;
       ControlsData.playBtn.classList.add('hide');
       ControlsData.setBtn.classList.add('hide');
       ControlsData.pauseBtn.classList.remove('hide');
       ControlsData.stopBtn.classList.remove('hide');
+
+      runTimer();
    };
+   
 };
+
 
 const setTime = (event) => {
    event.preventDefault();
@@ -65,6 +81,7 @@ const stopCounter = (event) => {
    ControlsData.pauseBtn.classList.add('hide');
    ControlsData.stopBtn.classList.add('hide');
 
+   resetDefaultValue();
 
 };
 

@@ -34,18 +34,12 @@ body {
 input {
    background-color: transparent;
    border: none;
-   width: 8rem;
-   padding: 1rem;
+   width: 7rem;
    font-size: clamp(3.3rem, 3.3rem + 2vw, 6.6rem);
    color: var(--txt-color);
    outline: none;
    appearance: none;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-   -webkit-appearance: none;
-   margin: 0;
+   text-align: center;
 }
 
 .btn {
