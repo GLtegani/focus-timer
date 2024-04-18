@@ -1,3 +1,7 @@
+// IMPORTS
+import { resetDefaultValue } from "./utils.js";
+
+// DATA
 const TimeData = {
    errorAlert: document.querySelector('.empty-value-error'),
    minutes: document.querySelector('#minutes'),
@@ -6,9 +10,7 @@ const TimeData = {
 
 // FUNCTIONS
 const loadInitialItems = () => {
-   TimeData.minutes.value = '00';
-   TimeData.seconds.value = '00';
-   TimeData.errorAlert.style.transform = `translateY(${0})`;
+   resetDefaultValue();
 };
 
 

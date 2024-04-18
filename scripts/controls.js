@@ -1,5 +1,6 @@
 // IMPORTS
 import { TimeData } from "./time.js";
+import { resetDefaultValue } from "./utils.js";
 
 // DATA
 const ControlsData = {
@@ -13,18 +14,38 @@ const ControlsData = {
 const startCounter = (event) => {
    event.preventDefault();
 
-   ControlsData.playBtn.classList.add('hide');
-   ControlsData.setBtn.classList.add('hide');
-   ControlsData.pauseBtn.classList.remove('hide');
-   ControlsData.stopBtn.classList.remove('hide');
+   const nullMinutesValue = TimeData.minutes.value == '00';
+   const emptyMinutesValue = TimeData.minutes.value == '';
+   const nullSecondsValue = TimeData.seconds.value == '00';
+   const emptySecondsValue = TimeData.seconds.value == '';
+   const showErrorBox = TimeData.errorAlert.style.transform = `translateY(0)`;
 
+   if(nullMinutesValue && nullSecondsValue) {
+
+      showErrorBox;
+      resetDefaultValue();
+   } else if(nullMinutesValue && emptySecondsValue){
+
+      showErrorBox;
+      resetDefaultValue();
+   } else if(emptyMinutesValue && nullSecondsValue) {
+
+      showErrorBox;
+      resetDefaultValue();
+   } else {
+
+      TimeData.errorAlert.style.transform = `translateY(-100%)`
+      ControlsData.playBtn.classList.add('hide');
+      ControlsData.setBtn.classList.add('hide');
+      ControlsData.pauseBtn.classList.remove('hide');
+      ControlsData.stopBtn.classList.remove('hide');
+   };
 };
 
 const setTime = (event) => {
    event.preventDefault();
 
-   TimeData.minutes.value = '00';
-   TimeData.seconds.value = '00';
+   resetDefaultValue();
    
 };
 
