@@ -13,10 +13,10 @@ const ControlsData = {
 // FUNCTIONS
 const startCounter = (event) => {
    event.preventDefault();
-
-   const nullMinutesValue = TimeData.minutes.value == '00';
+   
+   const nullMinutesValue = TimeData.minutes.value == 0;
    const emptyMinutesValue = TimeData.minutes.value == '';
-   const nullSecondsValue = TimeData.seconds.value == '00';
+   const nullSecondsValue = TimeData.seconds.value == 0;
    const emptySecondsValue = TimeData.seconds.value == '';
    const showErrorBox = TimeData.errorAlert.style.transform = `translateY(0)`;
 
@@ -40,10 +40,22 @@ const startCounter = (event) => {
 
       showErrorBox;
       resetDefaultValue();
-   } else if(TimeData.minutes.value.length != 2 || TimeData.seconds.value.length != 2){
-      
+   } else if(Math.sign(TimeData.minutes.value) == -1 || Math.sign(TimeData.seconds.value) == -1) {
+     
       showErrorBox;
       resetDefaultValue();
+   } else if(TimeData.minutes.value.length != 2 || TimeData.seconds.value.length != 2){
+      
+      TimeData.minutes.value = String(TimeData.minutes.value).padStart(2, '0');
+      TimeData.seconds.value = String(TimeData.seconds.value).padStart(2, '0');
+
+      TimeData.errorAlert.style.transform = `translateY(-100%)`;
+      ControlsData.playBtn.classList.add('hide');
+      ControlsData.setBtn.classList.add('hide');
+      ControlsData.pauseBtn.classList.remove('hide');
+      ControlsData.stopBtn.classList.remove('hide');
+
+      runTimer(TimeData.minutes.value, TimeData.seconds.value);
    } else {
 
       TimeData.errorAlert.style.transform = `translateY(-100%)`;
@@ -52,11 +64,10 @@ const startCounter = (event) => {
       ControlsData.pauseBtn.classList.remove('hide');
       ControlsData.stopBtn.classList.remove('hide');
 
-      runTimer();
+      runTimer(TimeData.minutes.value, TimeData.seconds.value);
    };
    
 };
-
 
 const setTime = (event) => {
    event.preventDefault();
@@ -82,9 +93,7 @@ const stopCounter = (event) => {
    ControlsData.stopBtn.classList.add('hide');
 
    resetDefaultValue();
-
 };
-
 
 // EVENTS
 ControlsData.playBtn.addEventListener('click', startCounter);
@@ -93,4 +102,4 @@ ControlsData.pauseBtn.addEventListener('click', pauseCounter);
 ControlsData.stopBtn.addEventListener('click', stopCounter);
 
 // EXPORTS
-export { startCounter, setTime };
+export { startCounter, setTime, ControlsData };
