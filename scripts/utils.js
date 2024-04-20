@@ -8,6 +8,12 @@ const resetDefaultValue = () => {
    TimeData.seconds.value = '00';
 };
 
+const errorMsg = () => {
+   
+   TimeData.errorAlert.style.transform = `translateY(0)`;
+   resetDefaultValue();
+};
+
 const runTimer = (minute, second) => {
 
    setTimeout(function() {
@@ -36,5 +42,19 @@ const runTimer = (minute, second) => {
    
 };
 
+const runCutdown = () => {
+
+   TimeData.minutes.value = String(TimeData.minutes.value).padStart(2, '0');
+   TimeData.seconds.value = String(TimeData.seconds.value).padStart(2, '0');
+
+   TimeData.errorAlert.style.transform = `translateY(-100%)`;
+   ControlsData.playBtn.classList.add('hide');
+   ControlsData.setBtn.classList.add('hide');
+   ControlsData.pauseBtn.classList.remove('hide');
+   ControlsData.stopBtn.classList.remove('hide');
+
+   runTimer(TimeData.minutes.value, TimeData.seconds.value);
+};
+
 // EXPORTS
-export { resetDefaultValue, runTimer};
+export { resetDefaultValue, runTimer, errorMsg, runCutdown};
