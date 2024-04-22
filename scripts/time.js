@@ -1,5 +1,5 @@
 // IMPORTS
-import { resetDefaultValue } from "./utils.js";
+import { TimerFunctions } from "./utils.js";
 
 // DATA
 const TimeData = {
@@ -10,7 +10,7 @@ const TimeData = {
 
 // FUNCTIONS
 const loadInitialItems = () => {
-   resetDefaultValue();
+  TimerFunctions.resetDefaultValue();
 };
 
 // EVENTS

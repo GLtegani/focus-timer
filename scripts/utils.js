@@ -1,60 +1,82 @@
 // IMPORTS
 import { TimeData } from "./time.js";
-import { ControlsData } from "./controls.js";
+import { ControlsData, startCounter } from "./controls.js";
 
 // FUNCTIONS
-const resetDefaultValue = () => {
-   TimeData.minutes.value = '00';
-   TimeData.seconds.value = '00';
-};
 
-const errorMsg = () => {
+const TimerFunctions = {
+
+   timeoutId: '',
+   initialMin: '',
+   initialSec: '',
+
+   resetDefaultValue: () => {
+
+      TimeData.minutes.value = '00';
+      TimeData.seconds.value = '00';
+   },
+
+   showErrorMsg: () => {
+
+      TimeData.errorAlert.style.transform = `translateY(0)`;
+      TimerFunctions.resetDefaultValue();
+   },
+
+   timerLogic: (minute, second) => {
+
+      TimerFunctions.timeoutId = setTimeout(function() {
+
+         if(TimeData.seconds.value <= 0) {
+
+            TimeData.seconds.value = 60;
    
-   TimeData.errorAlert.style.transform = `translateY(0)`;
-   resetDefaultValue();
-};
+            TimeData.minutes.value = String(TimeData.minutes.value - 1).padStart(2, '0');
+         };
+         
+         TimeData.seconds.value = String(TimeData.seconds.value - 1).padStart(2, '0');
+         
+         if(TimeData.minutes.value < 0) {
 
-const runTimer = (minute, second) => {
+            TimeData.minutes.value = String(minute).padStart(2, '0');
+            TimeData.seconds.value = String(second).padStart(2, '0');
+            ControlsData.playBtn.classList.remove('hide');
+            ControlsData.setBtn.classList.remove('hide');
+            ControlsData.pauseBtn.classList.add('hide');
+            ControlsData.stopBtn.classList.add('hide');
+            return;
+         };
+         
+         TimerFunctions.timerLogic(minute, second);
 
-   setTimeout(function() {
-      
-      if(TimeData.seconds.value <= 0) {
-         TimeData.seconds.value = 60;
+      }, 1000);
+   },
 
-         TimeData.minutes.value = String(TimeData.minutes.value - 1).padStart(2, '0');
-      };
-      
-      TimeData.seconds.value = String(TimeData.seconds.value - 1).padStart(2, '0');
-      
-      if(TimeData.minutes.value < 0) {
-         TimeData.minutes.value = String(minute).padStart(2, '0');
-         TimeData.seconds.value = String(second).padStart(2, '0');
-         ControlsData.playBtn.classList.remove('hide');
-         ControlsData.setBtn.classList.remove('hide');
-         ControlsData.pauseBtn.classList.add('hide');
-         ControlsData.stopBtn.classList.add('hide');
-         return;
-      };
+   runCutdown: () => {
 
-      runTimer(minute, second);
+      initialMin: TimeData.minutes.value = String(TimeData.minutes.value).padStart(2, '0');
+      TimeData.seconds.value = String(TimeData.seconds.value).padStart(2, '0');
 
-   }, 1000);
-   
-};
+      TimeData.errorAlert.style.transform = `translateY(-100%)`;
+      ControlsData.playBtn.classList.add('hide');
+      ControlsData.setBtn.classList.add('hide');
+      ControlsData.pauseBtn.classList.remove('hide');
+      ControlsData.stopBtn.classList.remove('hide');
 
-const runCutdown = () => {
+      TimerFunctions.timerLogic(TimeData.minutes.value, TimeData.seconds.value);
 
-   TimeData.minutes.value = String(TimeData.minutes.value).padStart(2, '0');
-   TimeData.seconds.value = String(TimeData.seconds.value).padStart(2, '0');
+   },
 
-   TimeData.errorAlert.style.transform = `translateY(-100%)`;
-   ControlsData.playBtn.classList.add('hide');
-   ControlsData.setBtn.classList.add('hide');
-   ControlsData.pauseBtn.classList.remove('hide');
-   ControlsData.stopBtn.classList.remove('hide');
+   pauseTimer: (timer) => {
+      clearTimeout(timer);
+   },
 
-   runTimer(TimeData.minutes.value, TimeData.seconds.value);
+   stopTimer: (initialMin, initialSec) => {
+      TimeData.minutes.value = initialMin;
+      TimeData.seconds.value = initialSec;
+      return;
+   },
+
 };
 
 // EXPORTS
-export { resetDefaultValue, runTimer, errorMsg, runCutdown};
+export { TimerFunctions };

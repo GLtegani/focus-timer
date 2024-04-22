@@ -1,6 +1,6 @@
 // IMPORTS
 import { TimeData } from "./time.js";
-import { resetDefaultValue, errorMsg, runCutdown } from "./utils.js";
+import { TimerFunctions } from "./utils.js";
 
 // DATA
 const ControlsData = {
@@ -23,17 +23,22 @@ const startCounter = (event) => {
 
    if(nullMinutesValue && nullSecondsValue || nullMinutesValue && emptySecondsValue || emptyMinutesValue && nullSecondsValue) {
 
-      errorMsg();
+      TimerFunctions.showErrorMsg();
+
    } else if(emptyMinutesValue && emptySecondsValue || inputsNotANumber || minutesOrSecondsAreNegative){
 
-      errorMsg();
-   } else if(TimeData.seconds.value > 60) {
-      TimeData.seconds.value = 60;
+      TimerFunctions.showErrorMsg();
 
-      runCutdown();
+   } else if(TimeData.seconds.value > 60) {
+
+      TimeData.seconds.value = 60;
+      
+      TimerFunctions.runCutdown();
+
    } else {
 
-      runCutdown();
+      TimerFunctions.runCutdown();
+
    };
    
 };
@@ -41,7 +46,7 @@ const startCounter = (event) => {
 const setTime = (event) => {
    event.preventDefault();
 
-   resetDefaultValue();
+   TimerFunctions.resetDefaultValue();
    
 };
 
@@ -51,6 +56,7 @@ const pauseCounter = (event) => {
    ControlsData.playBtn.classList.remove('hide');
    ControlsData.pauseBtn.classList.add('hide');
 
+   TimerFunctions.pauseTimer(TimerFunctions.timeoutId);
 };
 
 const stopCounter = (event) => {
@@ -61,7 +67,7 @@ const stopCounter = (event) => {
    ControlsData.pauseBtn.classList.add('hide');
    ControlsData.stopBtn.classList.add('hide');
 
-   resetDefaultValue();
+   TimerFunctions.resetDefaultValue();
 };
 
 // EVENTS
