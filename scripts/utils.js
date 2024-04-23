@@ -1,6 +1,6 @@
 // IMPORTS
 import { TimeData } from "./time.js";
-import { ControlsData, startCounter } from "./controls.js";
+import { ControlsData } from "./controls.js";
 
 // FUNCTIONS
 
@@ -47,14 +47,13 @@ const TimerFunctions = {
          };
          
          TimerFunctions.timerLogic(minute, second);
-
-      }, 1000);
+      }, 10);
    },
 
    runCutdown: () => {
 
-      initialMin: TimeData.minutes.value = String(TimeData.minutes.value).padStart(2, '0');
-      TimeData.seconds.value = String(TimeData.seconds.value).padStart(2, '0');
+      TimerFunctions.initialMin = TimeData.minutes.value = String(TimeData.minutes.value).padStart(2, '0');
+      TimerFunctions.initialSec =  TimeData.seconds.value = String(TimeData.seconds.value).padStart(2, '0');
 
       TimeData.errorAlert.style.transform = `translateY(-100%)`;
       ControlsData.playBtn.classList.add('hide');
@@ -63,17 +62,16 @@ const TimerFunctions = {
       ControlsData.stopBtn.classList.remove('hide');
 
       TimerFunctions.timerLogic(TimeData.minutes.value, TimeData.seconds.value);
-
    },
 
    pauseTimer: (timer) => {
       clearTimeout(timer);
    },
 
-   stopTimer: (initialMin, initialSec) => {
+   stopTimer: (initialMin, initialSec, timer) => {
       TimeData.minutes.value = initialMin;
       TimeData.seconds.value = initialSec;
-      return;
+      clearTimeout(timer);
    },
 
 };

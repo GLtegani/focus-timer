@@ -10,10 +10,20 @@ const ControlsData = {
    stopBtn: document.querySelector('.stop'),
 };
 
+let initialInputsData = [];
+const maxInputLength = 1;
+
 // FUNCTIONS
+const captureInitialUserInputs = (array, minute, second, maxLenght) => {
+   
+   if(array.length < maxLenght) {
+      array.push(minute, second);
+   };
+};
+
 const startCounter = (event) => {
    event.preventDefault();
-   
+
    const nullMinutesValue = TimeData.minutes.value == 0;
    const emptyMinutesValue = TimeData.minutes.value == '';
    const nullSecondsValue = TimeData.seconds.value == 0;
@@ -24,30 +34,26 @@ const startCounter = (event) => {
    if(nullMinutesValue && nullSecondsValue || nullMinutesValue && emptySecondsValue || emptyMinutesValue && nullSecondsValue) {
 
       TimerFunctions.showErrorMsg();
-
    } else if(emptyMinutesValue && emptySecondsValue || inputsNotANumber || minutesOrSecondsAreNegative){
 
       TimerFunctions.showErrorMsg();
-
    } else if(TimeData.seconds.value > 60) {
 
       TimeData.seconds.value = 60;
       
+      captureInitialUserInputs(initialInputsData, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
       TimerFunctions.runCutdown();
-
    } else {
-
+      
+      captureInitialUserInputs(initialInputsData, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
       TimerFunctions.runCutdown();
-
    };
-   
 };
 
 const setTime = (event) => {
    event.preventDefault();
 
    TimerFunctions.resetDefaultValue();
-   
 };
 
 const pauseCounter = (event) => {
@@ -67,7 +73,8 @@ const stopCounter = (event) => {
    ControlsData.pauseBtn.classList.add('hide');
    ControlsData.stopBtn.classList.add('hide');
 
-   TimerFunctions.resetDefaultValue();
+   TimerFunctions.stopTimer(initialInputsData[0], initialInputsData[1], TimerFunctions.timeoutId);
+   initialInputsData = [];
 };
 
 // EVENTS
@@ -77,4 +84,4 @@ ControlsData.pauseBtn.addEventListener('click', pauseCounter);
 ControlsData.stopBtn.addEventListener('click', stopCounter);
 
 // EXPORTS
-export { startCounter, setTime, ControlsData };
+export { ControlsData };
