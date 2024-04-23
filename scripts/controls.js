@@ -42,11 +42,11 @@ const startCounter = (event) => {
       TimeData.seconds.value = 60;
       
       captureInitialUserInputs(initialInputsData, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
-      TimerFunctions.runCutdown();
+      TimerFunctions.runCutdown(initialInputsData[0], initialInputsData[1]);
    } else {
       
       captureInitialUserInputs(initialInputsData, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
-      TimerFunctions.runCutdown();
+      TimerFunctions.runCutdown(initialInputsData[0], initialInputsData[1]);
    };
 };
 

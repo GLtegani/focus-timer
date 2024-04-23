@@ -22,8 +22,8 @@ const TimerFunctions = {
       TimerFunctions.resetDefaultValue();
    },
 
-   timerLogic: (minute, second) => {
-
+   timerLogic: (minute, second, initialMin, initialSec) => {
+      console.log(initialMin, initialSec);
       TimerFunctions.timeoutId = setTimeout(function() {
 
          if(TimeData.seconds.value <= 0) {
@@ -37,8 +37,8 @@ const TimerFunctions = {
          
          if(TimeData.minutes.value < 0) {
 
-            TimeData.minutes.value = String(minute).padStart(2, '0');
-            TimeData.seconds.value = String(second).padStart(2, '0');
+            TimeData.minutes.value = String(initialMin).padStart(2, '0');
+            TimeData.seconds.value = String(initialSec).padStart(2, '0');
             ControlsData.playBtn.classList.remove('hide');
             ControlsData.setBtn.classList.remove('hide');
             ControlsData.pauseBtn.classList.add('hide');
@@ -46,14 +46,14 @@ const TimerFunctions = {
             return;
          };
          
-         TimerFunctions.timerLogic(minute, second);
+         TimerFunctions.timerLogic(minute, second, initialMin, initialSec);
       }, 10);
    },
 
-   runCutdown: () => {
+   runCutdown: (initialMin, initialSec) => {
 
-      TimerFunctions.initialMin = TimeData.minutes.value = String(TimeData.minutes.value).padStart(2, '0');
-      TimerFunctions.initialSec =  TimeData.seconds.value = String(TimeData.seconds.value).padStart(2, '0');
+      TimeData.minutes.value = String(TimeData.minutes.value).padStart(2, '0');
+      TimeData.seconds.value = String(TimeData.seconds.value).padStart(2, '0');
 
       TimeData.errorAlert.style.transform = `translateY(-100%)`;
       ControlsData.playBtn.classList.add('hide');
@@ -61,7 +61,7 @@ const TimerFunctions = {
       ControlsData.pauseBtn.classList.remove('hide');
       ControlsData.stopBtn.classList.remove('hide');
 
-      TimerFunctions.timerLogic(TimeData.minutes.value, TimeData.seconds.value);
+      TimerFunctions.timerLogic(TimeData.minutes.value, TimeData.seconds.value, initialMin, initialSec);
    },
 
    pauseTimer: (timer) => {
