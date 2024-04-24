@@ -10,6 +10,7 @@ const TimeData = {
 
 // FUNCTIONS
 const loadInitialItems = () => {
+  
   TimerFunctions.resetDefaultValue();
 };
 
