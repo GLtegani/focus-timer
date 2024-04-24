@@ -10,8 +10,8 @@
 
    /* COLORS */
    --bg-color: #bf1dd1;
-   --base-color: 264;
-   --bg-primary-light: hsla(var(--base-color), 100%, 63%, 1);
+   --base-color: 900;
+   --bg-primary-light: hsla(var(--base-color), 100%, 63%, 0.3);
    --primary-color: hsl(var(--base-color), 100%, 63%);
    --txt-color: #ffffff;
    --error-alert-bg: red;
