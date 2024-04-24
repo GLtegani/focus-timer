@@ -49,7 +49,7 @@ const TimerFunctions = {
          };
          
          TimerFunctions.timerLogic();
-      }, 10);
+      }, 1000);
    },
 
    runCutdown: (initialMin, initialSec) => {
