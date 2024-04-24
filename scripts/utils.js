@@ -1,10 +1,11 @@
 // IMPORTS
 import { TimeData } from "./time.js";
-import { ControlsData } from "./controls.js";
+import { ControlsData, initialInputsData } from "./controls.js";
+
+// DATA
+let initialTime = [];
 
 // FUNCTIONS
-
-let initialTime = [];
 
 const TimerFunctions = {
 
@@ -25,11 +26,11 @@ const TimerFunctions = {
    timerLogic: () => {
       
       TimerFunctions.timeoutId = setTimeout(function() {
-
+         
          if(TimeData.seconds.value <= 0) {
-
+            
             TimeData.seconds.value = 60;
-   
+            
             TimeData.minutes.value = String(TimeData.minutes.value - 1).padStart(2, '0');
          };
          
@@ -39,6 +40,7 @@ const TimerFunctions = {
             TimeData.minutes.value = initialTime[0];
             TimeData.seconds.value = initialTime[1];
             initialTime = [];
+            initialInputsData.splice(0);
             ControlsData.playBtn.classList.remove('hide');
             ControlsData.setBtn.classList.remove('hide');
             ControlsData.pauseBtn.classList.add('hide');
@@ -47,7 +49,7 @@ const TimerFunctions = {
          };
          
          TimerFunctions.timerLogic();
-      }, 1000);
+      }, 10);
    },
 
    runCutdown: (initialMin, initialSec) => {

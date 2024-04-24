@@ -15,6 +15,14 @@ let initialInputsData = [];
 const maxInputLength = 1;
 
 // FUNCTIONS
+const startTimer = () => {
+   
+   captureInitialUserInputs(initialInputsData, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
+   captureInitialUserInputs(initialInputsDataForEndTimer, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
+   TimerFunctions.runCutdown(initialInputsDataForEndTimer[0], initialInputsDataForEndTimer[1]);
+   initialInputsDataForEndTimer = [];
+};
+
 const captureInitialUserInputs = (array, minute, second, maxLenght) => {
    
    if(array.length < maxLenght) {
@@ -33,6 +41,7 @@ const startCounter = (event) => {
    const emptySecondsValue = TimeData.seconds.value == '';
    const minutesOrSecondsAreNegative = Math.sign(TimeData.minutes.value) == -1 || Math.sign(TimeData.seconds.value) == -1;
    const inputsNotANumber = isNaN(TimeData.minutes.value) || isNaN(TimeData.seconds.value);
+   const reciveAnEmptyAndNumber = /^\s+\d+/;
 
    if(nullMinutesValue && nullSecondsValue || nullMinutesValue && emptySecondsValue || emptyMinutesValue && nullSecondsValue) {
 
@@ -40,20 +49,20 @@ const startCounter = (event) => {
    } else if(emptyMinutesValue && emptySecondsValue || inputsNotANumber || minutesOrSecondsAreNegative){
 
       TimerFunctions.showErrorMsg();
+   } else if(reciveAnEmptyAndNumber.test(TimeData.minutes.value) || reciveAnEmptyAndNumber.test(TimeData.seconds.value)) {
+
+      TimeData.minutes.value = TimeData.minutes.value.replace(/\s/g, '0');
+      TimeData.seconds.value = TimeData.seconds.value.replace(/\s/g, '0');
+
+      startTimer();
    } else if(TimeData.seconds.value > 60) {
 
       TimeData.seconds.value = 60;
       
-      captureInitialUserInputs(initialInputsData, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
-      captureInitialUserInputs(initialInputsDataForEndTimer, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
-      TimerFunctions.runCutdown(initialInputsDataForEndTimer[0], initialInputsDataForEndTimer[1]);
-      initialInputsDataForEndTimer = [];
+      startTimer();
    } else {
       
-      captureInitialUserInputs(initialInputsData, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
-      captureInitialUserInputs(initialInputsDataForEndTimer, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
-      TimerFunctions.runCutdown(initialInputsDataForEndTimer[0], initialInputsDataForEndTimer[1]);
-      initialInputsDataForEndTimer = [];
+      startTimer();
    };
 };
 
@@ -82,6 +91,7 @@ const stopCounter = (event) => {
 
    TimerFunctions.stopTimer(initialInputsData[0], initialInputsData[1], TimerFunctions.timeoutId);
    initialInputsData = [];
+   initialInputsDataForEndTimer = [];
 };
 
 // EVENTS
@@ -91,4 +101,4 @@ ControlsData.pauseBtn.addEventListener('click', pauseCounter);
 ControlsData.stopBtn.addEventListener('click', stopCounter);
 
 // EXPORTS
-export { ControlsData };
+export { ControlsData, initialInputsData };
