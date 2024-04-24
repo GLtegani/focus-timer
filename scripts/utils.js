@@ -4,11 +4,11 @@ import { ControlsData } from "./controls.js";
 
 // FUNCTIONS
 
+let initialTime = [];
+
 const TimerFunctions = {
 
    timeoutId: '',
-   initialMin: '',
-   initialSec: '',
 
    resetDefaultValue: () => {
 
@@ -22,8 +22,8 @@ const TimerFunctions = {
       TimerFunctions.resetDefaultValue();
    },
 
-   timerLogic: (minute, second, initialMin, initialSec) => {
-      console.log(initialMin, initialSec);
+   timerLogic: () => {
+      
       TimerFunctions.timeoutId = setTimeout(function() {
 
          if(TimeData.seconds.value <= 0) {
@@ -36,9 +36,11 @@ const TimerFunctions = {
          TimeData.seconds.value = String(TimeData.seconds.value - 1).padStart(2, '0');
          
          if(TimeData.minutes.value < 0) {
-
-            TimeData.minutes.value = String(initialMin).padStart(2, '0');
-            TimeData.seconds.value = String(initialSec).padStart(2, '0');
+            console.log(initialTime);
+            TimeData.minutes.value = initialTime[0];
+            TimeData.seconds.value = initialTime[1];
+            initialTime = [];
+            console.log(initialTime);
             ControlsData.playBtn.classList.remove('hide');
             ControlsData.setBtn.classList.remove('hide');
             ControlsData.pauseBtn.classList.add('hide');
@@ -46,22 +48,21 @@ const TimerFunctions = {
             return;
          };
          
-         TimerFunctions.timerLogic(minute, second, initialMin, initialSec);
+         TimerFunctions.timerLogic();
       }, 10);
    },
 
    runCutdown: (initialMin, initialSec) => {
 
-      TimeData.minutes.value = String(TimeData.minutes.value).padStart(2, '0');
-      TimeData.seconds.value = String(TimeData.seconds.value).padStart(2, '0');
+      initialTime.push(initialMin, initialSec);
 
       TimeData.errorAlert.style.transform = `translateY(-100%)`;
       ControlsData.playBtn.classList.add('hide');
       ControlsData.setBtn.classList.add('hide');
       ControlsData.pauseBtn.classList.remove('hide');
       ControlsData.stopBtn.classList.remove('hide');
-
-      TimerFunctions.timerLogic(TimeData.minutes.value, TimeData.seconds.value, initialMin, initialSec);
+      console.log(initialTime);
+      TimerFunctions.timerLogic();
    },
 
    pauseTimer: (timer) => {

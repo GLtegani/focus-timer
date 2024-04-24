@@ -10,6 +10,7 @@ const ControlsData = {
    stopBtn: document.querySelector('.stop'),
 };
 
+let initialInputsDataForEndTimer = [];
 let initialInputsData = [];
 const maxInputLength = 1;
 
@@ -24,6 +25,8 @@ const captureInitialUserInputs = (array, minute, second, maxLenght) => {
 const startCounter = (event) => {
    event.preventDefault();
 
+   TimeData.minutes.value = String(TimeData.minutes.value).padStart(2, '0');
+   TimeData.seconds.value = String(TimeData.seconds.value).padStart(2, '0');
    const nullMinutesValue = TimeData.minutes.value == 0;
    const emptyMinutesValue = TimeData.minutes.value == '';
    const nullSecondsValue = TimeData.seconds.value == 0;
@@ -42,11 +45,15 @@ const startCounter = (event) => {
       TimeData.seconds.value = 60;
       
       captureInitialUserInputs(initialInputsData, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
-      TimerFunctions.runCutdown(initialInputsData[0], initialInputsData[1]);
+      captureInitialUserInputs(initialInputsDataForEndTimer, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
+      TimerFunctions.runCutdown(initialInputsDataForEndTimer[0], initialInputsDataForEndTimer[1]);
+      initialInputsDataForEndTimer = [];
    } else {
       
       captureInitialUserInputs(initialInputsData, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
-      TimerFunctions.runCutdown(initialInputsData[0], initialInputsData[1]);
+      captureInitialUserInputs(initialInputsDataForEndTimer, TimeData.minutes.value, TimeData.seconds.value, maxInputLength);
+      TimerFunctions.runCutdown(initialInputsDataForEndTimer[0], initialInputsDataForEndTimer[1]);
+      initialInputsDataForEndTimer = [];
    };
 };
 
