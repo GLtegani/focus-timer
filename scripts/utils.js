@@ -36,11 +36,9 @@ const TimerFunctions = {
          TimeData.seconds.value = String(TimeData.seconds.value - 1).padStart(2, '0');
          
          if(TimeData.minutes.value < 0) {
-            console.log(initialTime);
             TimeData.minutes.value = initialTime[0];
             TimeData.seconds.value = initialTime[1];
             initialTime = [];
-            console.log(initialTime);
             ControlsData.playBtn.classList.remove('hide');
             ControlsData.setBtn.classList.remove('hide');
             ControlsData.pauseBtn.classList.add('hide');
@@ -49,19 +47,20 @@ const TimerFunctions = {
          };
          
          TimerFunctions.timerLogic();
-      }, 10);
+      }, 1000);
    },
 
    runCutdown: (initialMin, initialSec) => {
 
-      initialTime.push(initialMin, initialSec);
+      if(initialTime.length < 1) {
+         initialTime.push(initialMin, initialSec);
+      };
 
       TimeData.errorAlert.style.transform = `translateY(-100%)`;
       ControlsData.playBtn.classList.add('hide');
       ControlsData.setBtn.classList.add('hide');
       ControlsData.pauseBtn.classList.remove('hide');
       ControlsData.stopBtn.classList.remove('hide');
-      console.log(initialTime);
       TimerFunctions.timerLogic();
    },
 
@@ -72,6 +71,7 @@ const TimerFunctions = {
    stopTimer: (initialMin, initialSec, timer) => {
       TimeData.minutes.value = initialMin;
       TimeData.seconds.value = initialSec;
+      initialTime = [];
       clearTimeout(timer);
    },
 
